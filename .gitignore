@@ -1,0 +1,20 @@
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+venv/
+__pycache__/
+
+docker.txt
+docker_clean_start.sh
+TODO.txt
+
+mongo.yml
+mongo_express.yml
