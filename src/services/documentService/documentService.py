@@ -2,12 +2,13 @@ import bson.json_util
 from bson import ObjectId
 from bson.errors import InvalidId
 from flask import current_app, Response
+#from flask_restful import Resource, request as restful_request
 import json
 from logging import getLogger
 
 
 from flask import current_app, g
-from werkzeug.local import LocalProxy
+#from werkzeug.local import LocalProxy
 from flask_pymongo import PyMongo
 
 
@@ -30,14 +31,22 @@ class DocumentService:
 
     def getDocumentByJson(self, request):
 
-        json_payload = request.get_json()
-        if 'object_id' in json_payload:
-            logger.info("getDocumentByJson document_id: " + str(json_payload['object_id']))
-            
-            return self.getDocument(json_payload['object_id'])
+        logger.debug("getDocumentByJson() DocumentService.getDocumentByJson()")
 
-        else:
-            return Response(json.dumps({'error4': 'invalid object_id'}), status=404, mimetype='application/json')
+        try:
+
+            json_payload = request.get_json()
+            logger.debug("json_payload: " + str(json_payload))
+
+            if 'object_id' in json_payload:    
+                return self.getDocument(json_payload['object_id'])
+
+            else:
+                return Response(json.dumps({'Input error': 'invalid object_id'}), status=404, mimetype='application/json')
+            
+        except Exception as e:
+            logger.error("Exception getDocumentByJson: \n json_payload: %s \n %s\n", json_payload, str(e))
+            return Response(json.dumps({'Exception': '203'}), status=422, mimetype='application/json')
     
     def getDocument(self, document_id):
 

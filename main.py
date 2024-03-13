@@ -1,22 +1,19 @@
-#import json
-#import os
-#from pymongo import MongoClient
+## 000
+
 from flask import Flask, render_template, request
 from flask import jsonify
 from flask_cors import CORS
 from flask_restful import Api
 from src import api_bp
 from src.routes.routeManager import routeManager
-#from dotenv import load_dotenv
+
 
 import logging
 
 logging.basicConfig(
     level=logging.DEBUG,  # Set desired log level (e.g., INFO, WARNING)
-    format="[%(asctime)s] %(levelname)s in %(module)s: %(message)s",
+    #format="[%(asctime)s] %(levelname)s in %(module)s: %(message)s",
 )
-
-
 
 # if you store that app.py in the same level with templates directory use the below
 # app4 definition.
@@ -26,7 +23,22 @@ app4 = Flask(__name__)
 CORS(app4, origins=['http://10.211.55.9:5173', 'http://localhost:5173'], allow_headers=['Content-Type'], allow_methods=['GET', 'POST'])
 
 # Replace with your desired log file
-app4.logger.addHandler(logging.FileHandler('/var/log/nginx/app.log'))
+#app4.logger.addHandler(logging.FileHandler('/var/log/nginx/app.log'))
+
+#app4.logger.addHandler(logging.FileHandler('/var/log/nginx/app.log', format="[%(asctime)s] %(levelname)s in %(module)s: %(message)s"))
+
+# Create a FileHandler for writing logs to a file
+file_handler = logging.FileHandler('/var/log/nginx/app.log')
+
+# Define formatter with desired format
+formatter = logging.Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
+
+# Set the formatter for the FileHandler
+file_handler.setFormatter(formatter)
+
+# Add the FileHandler to the logger of your Flask app
+app4.logger.addHandler(file_handler)
+
 
 # if you store that app.py in another directory within the project
 # use the below app definition.
@@ -53,6 +65,7 @@ logger = logging.getLogger(__name__)
 
 @app4.route('/')
 def home():
+    logger.info("home() called")
     return render_template('index.html')
 
 @app4.route('/hello', methods=['GET', 'POST'])
