@@ -1,8 +1,9 @@
-## 003
+## 0.0.001
 
 from src.routes.helloWorld.helloWorldRouter import HelloWorldRouter
 from src.routes.document.documentRouter import DocumentRouter
 from src.routes.urlPreview.urlPreviewRouter import UrlPreviewRouter
+from src.routes.authentication.authenticationRouter import AuthenticationRouter
 
 from logging import getLogger
 
@@ -17,3 +18,4 @@ class RouteManager:
         self.helloWorldRouter = HelloWorldRouter()
         self.documentRouter = DocumentRouter()
         self.urlPreviewRouter = UrlPreviewRouter()
+        self.authenticationRouter = AuthenticationRouter()
